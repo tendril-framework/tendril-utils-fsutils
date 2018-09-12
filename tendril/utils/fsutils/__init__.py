@@ -47,6 +47,8 @@ or python libraries.
 """
 
 import imp
+import importlib
+import pkgutil
 import tempfile
 import zipfile
 import atexit
@@ -466,6 +468,28 @@ def get_parent(obj, n=1):
     """
     import inspect
     return inspect.getmro(obj.__class__)[n]
+
+
+def get_namespace_package_names(namespace):
+    ns_module = importlib.import_module(namespace)
+    for _, name, _ in pkgutil.iter_modules(ns_module.__path__,
+                                           ns_module.__name__ + '.'):
+        yield name
+
+
+def _namespace_primary_location(namespace, fpath):
+    while os.path.split(fpath)[1] != namespace.split('.')[-1]:
+        fpath = os.path.split(fpath)[0]
+    return fpath
+
+
+def get_namespace_package_locations(namespace):
+    ns_package_names = get_namespace_package_names(namespace)
+    ns_package_files = [pkgutil.get_loader(name).filename
+                        for name in ns_package_names]
+    ns_package_locations = set([_namespace_primary_location(namespace, f)
+                               for f in ns_package_files])
+    return ns_package_locations
 
 
 atexit.register(fsutils_cleanup)
