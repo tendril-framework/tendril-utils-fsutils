@@ -16,7 +16,6 @@ with open('README.rst') as readme_file:
 requirements = [
     'six',
     'fs==0.5.4',
-
 ]
 
 test_requirements = [
@@ -25,7 +24,7 @@ test_requirements = [
 
 setup(
     name='tendril-utils-core',
-    version='0.1.1',
+    version='0.1.2',
     description="Core utilities for tendril",
     long_description=readme,
     author="Chintalagiri Shashank",
