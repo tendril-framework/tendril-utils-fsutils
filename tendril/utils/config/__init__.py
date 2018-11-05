@@ -96,6 +96,8 @@ from ..fsutils import import_
 config_module = sys.modules[__name__]
 CONFIG_PATH = os.path.abspath(inspect.getfile(inspect.currentframe()))
 
+__version__ = '0.1.4'
+
 
 class ConfigConstant(object):
     """
