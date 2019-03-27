@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name='tendril-utils-core',
-    version='0.1.4',
+    version='0.1.5',
     description="Core utilities for tendril",
     long_description=readme,
     author="Chintalagiri Shashank",
@@ -40,6 +40,11 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python',
     ],
+    entry_points={
+        'console_scripts': [
+            'tendril-versions = tendril.utils.versions:main',
+        ]
+    },
     # test_suite='tests',
     # tests_require=test_requirements
 )
