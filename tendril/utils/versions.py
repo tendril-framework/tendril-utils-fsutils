@@ -24,7 +24,10 @@ import pkg_resources
 
 
 def get_version(package):
-    return pkg_resources.get_distribution(package).version
+    try:
+        return pkg_resources.get_distribution(package).version
+    except pkg_resources.DistributionNotFound:
+        return 'Not Installed'
 
 
 def get_versions(prefix):
