@@ -37,6 +37,16 @@ def get_versions(prefix):
                   key=lambda x: x[0])
 
 
+class FeatureUnavailable(Exception):
+    def __init__(self, feature=None, provider=None):
+        self._feature = feature
+        self._provider = provider
+
+    def __repr__(self):
+        return "<FeatureUnavailable {0}>\nThis feature might be provided by " \
+               "{1}.".format(self._feature, self._provider)
+
+
 def main():
     print(' {0:34} : {1}'.format('Tendril Version',
                                  get_version('tendril-framework')))
