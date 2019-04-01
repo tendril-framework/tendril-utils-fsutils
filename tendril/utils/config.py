@@ -24,10 +24,21 @@ import importlib
 from tendril.utils.fsutils import get_namespace_package_names
 from tendril.utils.fsutils import import_
 from tendril.utils import log
-logger = log.get_logger(__name__, log.DEBUG)
+logger = log.get_logger(__name__, log.DEFAULT)
 
 
-class ConfigConstant(object):
+class ConfigElement(object):
+    def __init__(self, name, default, doc):
+        self.name = name
+        self.default = default
+        self.doc = doc
+        self.ctx = None
+
+    def doc_render(self):
+        return [self.name, self.default, self.doc]
+
+
+class ConfigConstant(ConfigElement):
     """
     A configuration `constant`. This is fully specified in the core
     configuration module and cannot be changed by the user or the instance
@@ -35,18 +46,12 @@ class ConfigConstant(object):
 
     The value itself is constructed using ``eval()``.
     """
-    def __init__(self, name, default, doc):
-        self.name = name
-        self.default = default
-        self.doc = doc
-        self.ctx = None
-
     @property
     def value(self):
         return eval(self.default, self.ctx)
 
 
-class ConfigOption(object):
+class ConfigOption(ConfigElement):
     """
     A configuration `option`. These options can be overridden
     by specifying them in the ``instance_config`` and
@@ -57,12 +62,6 @@ class ConfigOption(object):
     default value specified here is used through ``eval()``.
 
     """
-    def __init__(self, name, default, doc):
-        self.name = name
-        self.default = default
-        self.doc = doc
-        self.ctx = None
-
     @property
     def value(self):
         try:
@@ -88,6 +87,7 @@ class ConfigManager(object):
         self._local_config = None
         self._modules_loaded = []
         self._legacy = None
+        self._docs = []
         self._load_legacy(legacy)
         self._load_configs()
 
@@ -145,7 +145,7 @@ class ConfigManager(object):
     def LOCAL_CONFIG(self):
         return self._local_config
 
-    def load_elements(self, elements):
+    def load_elements(self, elements, doc=''):
         """
         Loads the constants and/or options in the provided list into
         the config namespace.
@@ -153,7 +153,13 @@ class ConfigManager(object):
         :param elements: `list` of :class:`ConfigConstant`or :class:`ConfigOption`
         :return: None
         """
+        _doc_part = []
         for element in elements:
             element.ctx = self.__dict__
             element.ctx['os'] = os
             setattr(self, element.name, element.value)
+            _doc_part.append(element.doc_render())
+        self._docs.append([_doc_part, doc])
+
+    def doc_render(self):
+        return self._docs
