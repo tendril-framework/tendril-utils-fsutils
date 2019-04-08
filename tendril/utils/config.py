@@ -166,5 +166,8 @@ class ConfigManager(object):
             _doc_part.append(element.doc_render())
         self._docs.append([_doc_part, doc])
 
+    def instance_path(self, path):
+        return os.path.join(self.INSTANCE_ROOT, path)
+
     def doc_render(self):
         return self._docs
