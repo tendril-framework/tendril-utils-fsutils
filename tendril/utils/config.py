@@ -122,6 +122,7 @@ class ConfigManager(object):
                     continue
                 m = importlib.import_module(m_name)
                 if self._check_depends(m.depends):
+                    logger.debug("Loading {0}".format(m_name))
                     m.load(self)
                     self._modules_loaded.append(m_name)
                     changed = True
@@ -133,8 +134,12 @@ class ConfigManager(object):
             modules = remaining_modules
 
     def load_config_files(self):
+        logger.debug("Loading Instance Config from {0}"
+                     "".format(self.INSTANCE_CONFIG_FILE))
         self._instance_config = import_(self.INSTANCE_CONFIG_FILE)
         if os.path.exists(self.LOCAL_CONFIG_FILE):
+            logger.debug("Loading Local Config from {0}"
+                         "".format(self.LOCAL_CONFIG_FILE))
             self._local_config = import_(self.LOCAL_CONFIG_FILE)
 
     @property
