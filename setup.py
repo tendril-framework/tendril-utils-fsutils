@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name='tendril-utils-core',
-    version='0.1.15',
+    version='0.1.16',
     description="Core utilities for tendril",
     long_description=readme,
     author="Chintalagiri Shashank",
