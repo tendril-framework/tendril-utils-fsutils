@@ -17,7 +17,16 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+Config Infrastructure Module (:mod:`tendril.utils.config`)
+==========================================================
 
+This module provides reusable infrastructure used by the tendril instance
+configuration.
+
+TODO Describe Architecture and Usage somewhere
+
+"""
 
 import os
 import importlib
