@@ -30,8 +30,8 @@ TODO Describe Architecture and Usage somewhere
 
 import os
 import importlib
+from runpy import run_path
 from tendril.utils.versions import get_namespace_package_names
-from tendril.utils.fsutils import import_
 from tendril.utils import log
 logger = log.get_logger(__name__, log.DEFAULT)
 
@@ -146,13 +146,13 @@ class ConfigManager(object):
         if os.path.exists(self.INSTANCE_CONFIG_FILE):
             logger.debug("Loading Instance Config from {0}"
                          "".format(self.INSTANCE_CONFIG_FILE))
-            self._instance_config = import_(self.INSTANCE_CONFIG_FILE)
+            self._instance_config = run_path(self.INSTANCE_CONFIG_FILE)
         else:
             self._instance_config = {}
         if os.path.exists(self.LOCAL_CONFIG_FILE):
             logger.debug("Loading Local Config from {0}"
                          "".format(self.LOCAL_CONFIG_FILE))
-            self._local_config = import_(self.LOCAL_CONFIG_FILE)
+            self._local_config = run_path(self.LOCAL_CONFIG_FILE)
         else:
             self._local_config = {}
 
