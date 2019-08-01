@@ -47,8 +47,6 @@ or python libraries.
 """
 
 import imp
-import importlib
-import pkgutil
 import tempfile
 import zipfile
 import atexit

@@ -46,19 +46,19 @@ build_requires = test_requires  # + ['doit', 'pyinstaller']
 publish_requires = build_requires + ['twine', 'pygithub']
 
 setup(
-    name='tendril-utils-core',
+    name='tendril-utils-fsutils',
     use_scm_version={"root": ".", "relative_to": __file__},
     author="Chintalagiri Shashank",
     author_email="shashank@chintal.in",
-    description="Core utilities for tendril",
+    description="Filesystem utilities for tendril",
     long_description='\n'.join([read('README.rst'), read('CHANGELOG.rst')]),
     long_description_content_type='text/x-rst',
     keywords='tendril',
-    url='https://github.com/tendril-framework/tendril-utils-core',
+    url='https://github.com/tendril-framework/tendril-utils-fsutils',
     project_urls={
-        'Documentation': 'https://tendril-utils-core.readthedocs.io/en/latest',
-        'Bug Tracker': 'https://github.com/tendril-framework/tendril-utils-core/issues',
-        'Source Repository': 'https://github.com/tendril-framework/tendril-utils-core',
+        'Documentation': 'https://tendril-utils-fsutils.readthedocs.io/en/latest',
+        'Bug Tracker': 'https://github.com/tendril-framework/tendril-utils-fsutils/issues',
+        'Source Repository': 'https://github.com/tendril-framework/tendril-utils-fsutils',
     },
     packages=find_packages('src'),
     package_dir={'': 'src'},
@@ -87,10 +87,6 @@ setup(
         'dev': build_requires,
     },
     platforms='any',
-    entry_points={
-        'console_scripts': [
-            'tendril-versions = tendril.utils.versions:main',
-        ]
-    },
+    entry_points={},
     include_package_data=True
 )

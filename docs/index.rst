@@ -1,6 +1,6 @@
 
-Core Utilities for Tendril
-==========================
+Filesystem Utilities for Tendril
+================================
 
 .. include:: ../README.rst
     :start-after: inclusion-marker-do-not-remove
@@ -24,7 +24,7 @@ Core Utilities for Tendril
 
             \vspace{-1.5em}
 
-        ``tendril-utils-core`` is part of the tendril framework for the management of engineering information
+        ``tendril-utils-fsutils`` is part of the tendril framework for the management of engineering information
 
 .. raw:: latex
 
