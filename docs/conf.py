@@ -13,10 +13,10 @@ import sys
 import os
 from pkg_resources import get_distribution
 
-_github_repo = 'tendril-utils-core'
+_github_repo = 'tendril-utils-fsutils'
 _github_user = 'tendril-framework'
 
-_package_name = u'tendril-utils-core'
+_package_name = u'tendril-utils-fsutils'
 _package_author = u'Tendril Framework'
 _package_copyright = u'2015-19'
 _package_logo = '_static/logo.png'
