@@ -12,7 +12,7 @@
 .. image:: https://img.shields.io/coveralls/github/tendril-framework/tendril-utils-fsutils.svg?logo=coveralls
     :target: https://coveralls.io/github/tendril-framework/tendril-utils-fsutils
 
-.. image:: https://img.shields.io/codacy/grade/696008e5aa284fe48d183f304620aea4?logo=codacy
+.. image:: https://img.shields.io/codacy/grade/694e07c41826407480e17a1b0dc6e1bd?logo=codacy
     :target: https://www.codacy.com/app/chintal/tendril-utils-fsutils
 
 .. image:: https://img.shields.io/requires/github/tendril-framework/tendril-utils-fsutils.svg
