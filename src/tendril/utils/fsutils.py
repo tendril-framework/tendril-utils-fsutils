@@ -73,7 +73,7 @@ try:
 except ImportError:
     from six import StringIO
 
-logger = log.get_logger(__name__, log.INFO)
+logger = log.getLogger(__name__, log.INFO)
 
 if tempfile.tempdir is None:
     tempfile.tempdir = tempfile.mkdtemp()

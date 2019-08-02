@@ -28,7 +28,6 @@ in your python environment by whatever means you usually use.
 
     - six
     - fs==0.5.4
-    - tendril-utils-core
 
 ``sudo`` may be necessary if you are not installing into a virtual environment.
 
