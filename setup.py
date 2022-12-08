@@ -30,7 +30,7 @@ def read(fname):
 
 core_dependencies = [
     'six',
-    'fs==0.5.4',
+    'fs',
 ]
 
 install_requires = core_dependencies + ['wheel']

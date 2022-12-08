@@ -56,9 +56,7 @@ import string
 import hashlib
 import base64
 
-from fs.opener import fsopendir
-from fs.errors import ResourceNotFoundError
-from six.moves.xmlrpc_client import Fault
+from fs import open_fs
 
 from datetime import datetime
 from collections import namedtuple
@@ -92,7 +90,7 @@ if tempfile.tempdir is None:
 #: .. seealso:: :func:`fsutils_cleanup`
 #:
 TEMPDIR = tempfile.gettempdir()
-temp_fs = fsopendir(TEMPDIR)
+temp_fs = open_fs("osfs://{}".format(TEMPDIR))
 
 
 def get_tempname():
@@ -226,14 +224,12 @@ def get_folder_mtime(folder, fs=None):
             if fct is not None and (last_change is None or fct > last_change):
                 last_change = fct
     else:
-        filelist = fs.listdir(path=folder, files_only=True, full=True)
-        dirlist = fs.listdir(path=folder, dirs_only=True, full=True)
-        for f in filelist:
-            fct = get_file_mtime(f, fs)
-            if last_change is None or fct > last_change:
-                last_change = fct
-        for d in dirlist:
-            fct = get_folder_mtime(d, fs)
+        children = fs.scandir(folder)
+        for child in children:
+            if child.is_dir:
+                fct = get_folder_mtime(os.path.join(folder, child.name), fs)
+            else:
+                fct = get_file_mtime(os.path.join(folder, child.name), fs)
             if last_change is None or fct > last_change:
                 last_change = fct
     return last_change
@@ -262,12 +258,9 @@ def get_file_mtime(f, fs=None):
             return None
     else:
         try:
-            return fs.getinfo(f)['modified_time']
-        except ResourceNotFoundError:
-            return None
-        except Fault:
-            # RPCFS seems to raise this if the file does not exist.
-            return None
+            return fs.getinfo(f, namespaces=['details']).modified
+        except:
+            raise
 
 
 def get_file_hash(filepath, hasher=None, blocksize=65536):
