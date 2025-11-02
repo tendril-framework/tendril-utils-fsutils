@@ -46,15 +46,16 @@ or python libraries.
 
 """
 
-import imp
+import os
+import sys
+import glob
 import tempfile
 import zipfile
 import atexit
-import os
-import glob
 import string
 import hashlib
 import base64
+import importlib.util
 
 from fs import open_fs
 
@@ -434,20 +435,32 @@ def fsutils_cleanup():
     except OSError:
         pass
 
-
 def import_(fpath):
     """
-    Imports the file specified by the ``fpath`` parameter using the
-    :mod:`imp` python module and returns the loaded module.
+    Dynamically imports a Python module from a file path using importlib,
+    and registers it in sys.modules.
 
-    :param fpath: Path of the python module to import.
-    :return: Module object of the imported python module.
+    :param fpath: Path of the Python module to import.
+    :return: The imported module object.
     """
-    (path, name) = os.path.split(fpath)
-    (name, ext) = os.path.splitext(name)
-    (f, filename, data) = imp.find_module(name, [path])
-    return imp.load_module(name, f, filename, data)
+    path = os.path.abspath(fpath)
+    name = os.path.splitext(os.path.basename(path))[0]
 
+    # If already imported, return cached module
+    if name in sys.modules:
+        return sys.modules[name]
+
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Could not load module from {fpath}")
+
+    module = importlib.util.module_from_spec(spec)
+
+    # Register the module before execution to support recursive imports
+    sys.modules[name] = module
+
+    spec.loader.exec_module(module)
+    return module
 
 def get_parent(obj, n=1):
     """
